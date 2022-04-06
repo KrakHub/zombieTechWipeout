@@ -14,8 +14,9 @@ def send_message():
     address_info = address.get()
     subject_info = subject.get()
     email_body_info = email_body.get()
+    email_text = 'Subject: {}\n\n{}'.format(subject_info, email_body_info)
 
-    server.sendmail(sender_email,address_info,subject_info,email_body_info)
+    server.sendmail(sender_email,address_info,email_text)
 
     print("Message Sent")
 
@@ -25,7 +26,7 @@ def send_message():
 
 
 app = Tk()
-app.geometry("750x750")
+app.geometry("750x300")
 app.title("Python Email Sending App")
 
 heading = Label(text="Zombie Virus Python Mail",bg="light blue",fg="black",font="10",width="500",height="3")
