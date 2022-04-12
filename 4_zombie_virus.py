@@ -1,5 +1,6 @@
 from tkinter import *
-import smtplib
+import smtplib, ssl
+
 
 def send_message():
     sender_email = "rosalez_alaina@student.mahoningctc.com"
@@ -27,9 +28,9 @@ def send_message():
 
 app = Tk()
 app.geometry("750x300")
-app.title("Python Email Sending App")
+app.title("Python Emails")
 
-heading = Label(text="Zombie Virus Python Mail",bg="light blue",fg="black",font="10",width="500",height="3")
+heading = Label(text="Zombie Virus Python Mail",bg="lavender",fg="black",font="10",width="500",height="3")
 heading.pack()
 
 address_field = Label(text="Recipient Address :")
@@ -52,7 +53,7 @@ address_entry.place(x=15,y=100)
 subject_entry.place(x=15,y=140)
 email_body_entry.place(x=15,y=180)
 
-button = Button(app,text="Send Message",bg="grey",command=send_message,width="30",height="2")
+button = Button(app,text="Send Message",bg="IndianRed",command=send_message,width="30",height="2")
 button.place(x=15,y=220)
 
 
