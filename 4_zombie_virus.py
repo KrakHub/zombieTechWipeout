@@ -1,27 +1,34 @@
-from distutils import command
+from distutils import command, file_util
 from tkinter import *
 from tkinter.filedialog import askopenfile
-import smtplib, ssl
+import smtplib
+import imghdr
+from email.message import EmailMessage
 
 
 # Actual email stuff
 def send_message():
-    sender_email = "rosalez_alaina@student.mahoningctc.com"
-    sender_password = "matbvaghbujuhoti"
+    Sender_Email = "rosalez_alaina@student.mahoningctc.com"
+    Reciever_Email = "ccpoynter03@gmail.com"
+    password = input('Enter your email account password: ')
 
-    server = smtplib.SMTP('smtp.gmail.com',587)
-    server.starttls()
-    server.login(sender_email,sender_password)
+    newMessage = EmailMessage()
+    newMessage['Subject'] = "Check out the new logo" 
+    newMessage['From'] = Sender_Email
+    newMessage['To'] = Reciever_Email
+    newMessage.set_content('Let me know what you think. Image attached!') 
 
-    print("Login Successful")
+    with open('360.png', 'rb') as f:
+        image_data = f.read()
+        image_type = imghdr.what(f.name)
+        image_name = f.name
+
+    newMessage.add_attachment(image_data, maintype='image', subtype=image_type, filename=image_name)
     
-    address_info = address.get()
-    subject_info = subject.get()
-    email_body_info = email_body.get()
-    email_text = 'Subject: {}\n\n{}'.format(subject_info, email_body_info)
-    
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
 
-    server.sendmail(sender_email,address_info,email_text)
+        smtp.login(Sender_Email, password)
+        smtp.send_message(newMessage)
 
     print("Message Sent")
 
@@ -31,7 +38,7 @@ def send_message():
 
 
 def open_file():
-    file_path = askopenfile(mode='r', filetypes=[('Image Files', '*jpeg')])
+    file_path = askopenfile(mode='r', filetypes=[('Image Files', '.png')])
     if file_path is not None:
         pass
 
@@ -56,12 +63,12 @@ attachment_field.place(x=15,y=200)
 address = StringVar()
 subject = StringVar()
 email_body = StringVar()
-attachment = Button(app, text='Upload File', command = lambda:open_file() )
+attachment = file_util
 
 address_entry = Entry(textvariable=address,width="30")
 subject_entry = Entry(textvariable=subject,width="30")
 email_body_entry = Entry(textvariable=email_body,width="30")
-attachment_entry = Button(app, text='Upload File', command = lambda:open_file() )
+attachment_entry = Button(app, text='Upload File', command = open_file() )
 
 address_entry.place(x=15,y=100)
 subject_entry.place(x=15,y=140)
